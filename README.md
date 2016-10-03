@@ -16,9 +16,10 @@ Then add it to your config.
     "cordlr-help"
   ],
   "help": {
-    "format": "Command: {{name}}\n\tUsage: {{prefix}}{{usage}}",
-    "scope": ["channel"]
-  }
+    "format": "Command: {{command}}\n\tUsage: {{prefix}}{{usage}}",
+    "scope": ["channel"],
+    "unknown": "Command {{command}} does not exist"
+  },
 }
 ```
 
