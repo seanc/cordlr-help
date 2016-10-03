@@ -5,14 +5,27 @@
 ## Installation
 
 ```sh
-$ npm install --save cordlr-help
+$ cordlr install cordlr-help
+```
+
+Then add it to your config.
+
+```json
+{
+  "plugins": [
+    "cordlr-help"
+  ],
+  "help": {
+    "format": "Command: {{name}}\n\tUsage: {{prefix}}{{usage}}",
+    "scope": ["channel"]
+  }
+}
 ```
 
 ## Usage
 
-```js
-var cordlrHelp = require('cordlr-help');
-cordlrHelp();
+```
+help [command]
 ```
 
 ## License
