@@ -2,8 +2,9 @@ const resolve = require('resolve-cwd');
 const pixie = require('pixie');
 
 function help(bot, config) {
-  config.plugins.splice(config.plugins.indexOf('cordlr-help'), 1);
-  const plugins = config.plugins.map(p => require(resolve(p)));
+  const scripts = config.plugins;
+  scripts.splice(config.plugins.indexOf('cordlr-help'), 1);
+  const plugins = scripts.map(p => require(resolve(p)));
   const commands = plugins.filter(p => p.command && p.usage);
   commands.push({
     command: 'help',
