@@ -5,7 +5,10 @@ function help(bot, config) {
   const scripts = config.plugins;
   scripts.splice(config.plugins.indexOf('cordlr-help'), 1);
   const plugins = scripts.map(p => require(resolve(p)));
-  const commands = plugins.filter(p => p.command && p.usage);
+  const commands = plugins.filter(p => {
+    if (!(p.command && p.usage)) p(bot, config);
+    return p.command && p.usage;
+  });
   commands.push({
     command: 'help',
     usage: 'help [command]'
