@@ -3,6 +3,7 @@ const pixie = require('pixie');
 
 function help(bot, config) {
   const scripts = config.plugins;
+  const prefix = prefix;
   scripts.splice(config.plugins.indexOf('cordlr-help'), 1);
   config = config[help.name] || {};
   const format = config.help || 'Command: {{command}}\n\tUsage: {{prefix}}{{usage}}';
@@ -19,7 +20,7 @@ function help(bot, config) {
   });
   const helpMessage = commands.map(c => {
     return pixie.render(format, Object.assign({
-      prefix: config.prefix
+      prefix: prefix
     }, c));
   });
 
@@ -32,7 +33,7 @@ function help(bot, config) {
         scope.forEach(scope => {
           if (message[scope].sendCode) {
             message[scope].sendCode(null, pixie.render(format, Object.assign({
-              prefix: config.prefix
+              prefix: prefix
             }, commandHelp)));
           }
         });
@@ -40,7 +41,7 @@ function help(bot, config) {
         scope.forEach(scope => {
           if (message[scope].sendCode) {
             message[scope].sendMessage(pixie.render(unknown, {
-              prefix: config.prefix,
+              prefix: prefix,
               command
             }));
           }
