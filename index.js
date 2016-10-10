@@ -3,7 +3,7 @@ const pixie = require('pixie');
 
 function help(bot, config) {
   const scripts = config.plugins;
-  const prefix = prefix;
+  const prefix = config.prefix;
   scripts.splice(config.plugins.indexOf('cordlr-help'), 1);
   config = config[help.name] || {};
   const format = config.help || 'Command: {{command}}\n\tUsage: {{prefix}}{{usage}}';
