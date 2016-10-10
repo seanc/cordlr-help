@@ -4,6 +4,10 @@ const pixie = require('pixie');
 function help(bot, config) {
   const scripts = config.plugins;
   scripts.splice(config.plugins.indexOf('cordlr-help'), 1);
+  config = config[help.name] || {};
+  const format = config.help || 'Command: {{command}}\n\tUsage: {{prefix}}{{usage}}';
+  const scope = config.scope || ['channel'];
+  const unknown = config.unknown || 'Command {{command}} does not exist';
   const plugins = scripts.map(p => require(resolve(p)));
   const commands = plugins.filter(p => {
     if (!(p.command && p.usage)) p(bot, config);
@@ -14,7 +18,7 @@ function help(bot, config) {
     usage: 'help [command]'
   });
   const helpMessage = commands.map(c => {
-    return pixie.render(config.help.format, Object.assign({
+    return pixie.render(format, Object.assign({
       prefix: config.prefix
     }, c));
   });
@@ -25,17 +29,17 @@ function help(bot, config) {
       const commandHelp = commands.find(c => c.name === command);
 
       if (commandHelp) {
-        config.help.scope.forEach(scope => {
+        scope.forEach(scope => {
           if (message[scope].sendCode) {
-            message[scope].sendCode(null, pixie.render(config.help.format, Object.assign({
+            message[scope].sendCode(null, pixie.render(format, Object.assign({
               prefix: config.prefix
             }, commandHelp)));
           }
         });
-      } else if (config.help.unknown) {
-        config.help.scope.forEach(scope => {
+      } else if (unknown) {
+        scope.forEach(scope => {
           if (message[scope].sendCode) {
-            message[scope].sendMessage(pixie.render(config.help.unknown, {
+            message[scope].sendMessage(pixie.render(unknown, {
               prefix: config.prefix,
               command
             }));
@@ -45,7 +49,7 @@ function help(bot, config) {
       return;
     }
 
-    config.help.scope.forEach(scope => {
+    scope.forEach(scope => {
       if (message[scope].sendCode) message[scope].sendCode(null, helpMessage.join('\n'));
     });
   }

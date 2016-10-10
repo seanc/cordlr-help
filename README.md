@@ -10,15 +10,15 @@ $ cordlr install cordlr-help
 
 Then add it to your config.
 
-```json
+```js
 {
   "plugins": [
     "cordlr-help"
   ],
   "help": {
-    "format": "Command: {{command}}\n\tUsage: {{prefix}}{{usage}}",
-    "scope": ["channel"],
-    "unknown": "Command {{command}} does not exist"
+    "format": "Command: {{command}}\n\tUsage: {{prefix}}{{usage}}", // How should the list be formatted
+    "scope": ["channel"], // Where should the bot send the list
+    "unknown": "Command {{command}} does not exist" // How should the bot respond if a specific command cannot be found
   },
 }
 ```
