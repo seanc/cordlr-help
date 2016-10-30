@@ -10,7 +10,12 @@ function help(bot, config) {
   const unknown = helpConfig.unknown || 'Command {{command}} does not exist';
 
   return function run(message, args) {
-    const plugins = config.plugins.map(p => require(resolve(p)));
+    const plugins = config.plugins.reduce((plugins, p) => {
+      const plugin = require(resolve(p));
+      if (Array.isArray(plugin)) for (let pl of plugin) plugins.push(pl)
+      else plugins.push(plugin);
+      return plugins;
+    }, []);
     const commands = plugins.filter(p => {
       if (!(p.command && p.usage)) p(bot, config);
       return p.command && p.usage;
@@ -24,7 +29,7 @@ function help(bot, config) {
         prefix: prefix
       }, c));
     });
-    
+
     if (args.length > 0) {
       const command = args[0];
       const commandHelp = commands.find(c => c.name === command);
